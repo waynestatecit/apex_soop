@@ -23,6 +23,14 @@ public class WSU_SoopTest {
         }
     }
 
+    static testMethod void queryMapTest() {
+        Map<ID, WSU_SObject> results = WSU_Soop.queryMap('select Id, LastName from Contact', WSU_SObject.class);
+        System.assertEquals(results.size(), 100);
+        for (ID resultId : results.keySet()) {
+            System.assert(((String)results.get(resultId).get('LastName')).startsWith('LASTNAME'));
+        }
+    }
+
     static testMethod void queryFailFieldTest() {
         List<WSU_SObject> results = WSU_Soop.query('select Id from Contact', WSU_SObject.class);
         System.assertEquals(results.size(), 100);

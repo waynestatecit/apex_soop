@@ -16,6 +16,19 @@ public class WSU_Soop {
         return toReturn;
     }
 
+    public static Map<ID, WSU_SObject> queryMap(String query, Type objectType) {
+        Map<ID, WSU_SObject> toReturn = new Map<ID, WSU_SObject>();
+        if (Limits.getQueries() < Limits.getLimitQueries()) {
+            Map<ID, SObject> sobjMap = new Map<ID, SObject>((List<SObject>)Database.query(query));
+            for (ID sobjId : sobjMap.keySet()) {
+                toReturn.put(sobjId, soopifyOne(sobjMap.get(sobjId), objectType));
+            }
+        } else {
+            throw new SoopException('The SOQL query limit has already been reached.');
+        }
+        return toReturn;
+    }
+
     public static List<WSU_SObject> soopify(List<sObject> sobjs, Type objectType) {
         List<WSU_SObject> toReturn = new List<WSU_SObject>();
         for (sObject sobj : sobjs) {
