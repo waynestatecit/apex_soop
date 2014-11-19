@@ -20,7 +20,8 @@ public class WSU_Soop {
         Map<ID, WSU_SObject> toReturn = new Map<ID, WSU_SObject>();
         if (Limits.getQueries() < Limits.getLimitQueries()) {
             Map<ID, SObject> sobjMap = new Map<ID, SObject>((List<SObject>)Database.query(query));
-            for (ID sobjId : sobjMap.keySet()) {
+            List<ID> toIter = new List<ID>(sobjMap.keySet());
+            for (ID sobjId : toIter) {
                 toReturn.put(sobjId, soopifyOne(sobjMap.get(sobjId), objectType));
             }
         } else {
